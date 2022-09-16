@@ -7,21 +7,14 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    id_dabar: {
+    barkel_id_dabar: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      primaryKey: true,
       references: {
         model: 'data_barang',
         key: 'id_dabar'
       }
-    },
-    nama_barang: {
-      type: DataTypes.STRING(50),
-      allowNull: true
-    },
-    jenis_barang: {
-      type: DataTypes.STRING(15),
-      allowNull: true
     },
     stock: {
       type: DataTypes.INTEGER,
@@ -42,10 +35,11 @@ module.exports = function(sequelize, DataTypes) {
     timestamps: false,
     indexes: [
       {
-        name: "barang_keluar_pkey",
+        name: "pk_barang_keluar",
         unique: true,
         fields: [
           { name: "id_barkel" },
+          { name: "barkel_id_dabar" },
         ]
       },
     ]

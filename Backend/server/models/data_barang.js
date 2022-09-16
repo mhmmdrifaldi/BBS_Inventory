@@ -7,20 +7,16 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    id_barang: {
+    id_jebar: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'barang',
-        key: 'id_barang'
+        model: 'jenis_barang',
+        key: 'id_jebar'
       }
     },
     nama_barang: {
       type: DataTypes.STRING(50),
-      allowNull: true
-    },
-    jenis_barang: {
-      type: DataTypes.STRING(15),
       allowNull: true
     },
     stock: {

@@ -4,38 +4,29 @@ create table jenis_barang(
   nama_jebar varchar(25)
 );
 
-create table barang(
-  id_barang serial primary key,
-  nama_barang varchar(50),
+create table data_barang(
+  id_dabar serial primary key,
   id_jebar integer not null,
+  nama_barang varchar(50),
+  stock integer,
   foreign key(id_jebar) references jenis_barang(id_jebar) on update cascade on delete cascade
 );
 
 create table barang_masuk(
-  id_barma serial primary key,
-  id_barang integer not null,
-  nama_barang varchar(50),
+  id_barma serial,
+  barma_id_dabar integer not null,
   stock integer,
   date_barma date,
-  foreign key(id_barang) references barang(id_barang) on update cascade on delete cascade
-);
-
-create table data_barang(
-  id_dabar serial primary key,
-  id_barang integer not null,
-  nama_barang varchar(50),
-  jenis_barang varchar(15),
-  stock integer,
-  foreign key(id_barang) references barang(id_barang) on update cascade on delete cascade
+  constraint pk_barang_masuk primary key(id_barma, barma_id_dabar),
+  foreign key(barma_id_dabar) references data_barang(id_dabar) on update cascade on delete cascade
 );
 
 create table barang_keluar(
-  id_barkel serial primary key,
-  id_dabar integer not null,
-  nama_barang varchar(50),
-  jenis_barang varchar(15),
+  id_barkel serial,
+  barkel_id_dabar integer not null,
   stock integer,
   date_barkel date,
   status varchar(20),
-  foreign key(id_dabar) references data_barang(id_dabar) on update cascade on delete cascade
+  constraint pk_barang_keluar primary key(id_barkel, barkel_id_dabar),
+  foreign key(barkel_id_dabar) references data_barang(id_dabar) on update cascade on delete cascade
 );

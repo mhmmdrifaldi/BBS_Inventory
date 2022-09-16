@@ -5,7 +5,8 @@ import compress from "compression";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import models,{sequelize} from "./models/init-models";
-import routes from './routes/index'
+import routes from './routes/IndexRoute'
+import config from './config/config';
 
 const port = process.env.PORT || 3000;
 const app = express()
@@ -22,6 +23,7 @@ app.use(async(req,res,next)=> {
 })
 
 //Masukkan Routes
+app.use(config.URL_API + '/jenis_barang', routes.JebarRoute)
 
 const dropDatabaseSync = false
 
