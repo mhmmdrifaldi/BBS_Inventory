@@ -3,6 +3,7 @@ import IndexController from '../controller/IndexController'
 
 const router = Router()
 router.get('/', IndexController.JebarController.findAll)
+router.get('/:id', IndexController.JebarController.findOne)
 router.post('/', IndexController.JebarController.create)
 router.put('/:id', IndexController.JebarController.update)
 router.delete('/:id', IndexController.JebarController.deleted)

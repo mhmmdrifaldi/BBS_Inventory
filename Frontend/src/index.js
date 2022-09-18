@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -8,7 +8,6 @@ import { Provider } from 'react-redux';
 //store redux saga
 import store from './redux-saga/stores'
 import { HelmetProvider } from 'react-helmet-async';
-
 
 ReactDOM.render(
   <Provider store={store}>

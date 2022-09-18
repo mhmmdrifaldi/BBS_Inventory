@@ -7,6 +7,17 @@ const findAll = async (req,res)=>{
 	}
 }
 
+const findOne = async (req,res)=>{
+	try {
+		const jebar = await req.context.models.jenis_barang.findOne({
+			where:{id_jebar : req.params.id}
+		})
+		return res.send(jebar)
+	} catch (error) {
+		return res.status(404).send(error)
+	}
+}
+
 const create = async (req,res)=>{
 	try {
 		const jebar = await req.context.models.jenis_barang.create({
@@ -42,6 +53,7 @@ const deleted = async (req,res)=>{
 
 export default {
 	findAll,
+	findOne,
 	create,
 	update,
 	deleted
