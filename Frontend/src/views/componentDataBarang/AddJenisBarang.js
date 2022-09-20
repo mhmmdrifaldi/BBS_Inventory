@@ -1,11 +1,13 @@
 import React from 'react'
 import { useFormik } from 'formik'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { AddJenisBarangRequest } from '../../redux-saga/actions/JenisBarang'
 import * as Yup from 'yup'
 import swal from 'sweetalert'
 
-export default function AddJenisBarang(props) {
+export default function AddJenisBarang() {
+	let navigate = useNavigate()
 	const dispatch = useDispatch()
 
 	const formik = useFormik({
@@ -23,8 +25,7 @@ export default function AddJenisBarang(props) {
 				text: "Data Succesfully Insert",
 				icon: "success",
 			});
-			props.closeAdd();
-			props.onRefresh()
+			navigate("/dataBarang")
 		}
 	})
 
@@ -59,7 +60,7 @@ export default function AddJenisBarang(props) {
 				</button>
 				<button 
 					className='transition flex items-center text-red-500 hover:bg-red-500 hover:text-white border-2 border-red-500 cursor-pointer pl-2 pr-4 py-1 shadow-sm text-sm font-medium rounded-md  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' 
-					onClick={() => props.closeAdd()}
+					onClick={() => navigate("/dataBarang")}
 				>
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   					<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />

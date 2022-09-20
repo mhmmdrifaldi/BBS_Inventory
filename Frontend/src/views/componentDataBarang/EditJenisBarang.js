@@ -1,17 +1,22 @@
 import React, { useEffect } from 'react'
 import { useFormik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
 import { GetOneJenisBarangRequest, EditJenisBarangRequest } from '../../redux-saga/actions/JenisBarang'
 import * as Yup from 'yup'
 import swal from 'sweetalert'
 
-export default function EditJenisBarang(props) {
+export default function EditJenisBarang() {
+	let navigate = useNavigate()
 	const dispatch = useDispatch()
 	const { jebar } = useSelector(state => state.jebarState)
-	
+	const { id } = useParams()
+
+	console.log(id);
+
 	useEffect(() => {
-		dispatch(GetOneJenisBarangRequest(props.id))
-	}, [])
+		dispatch(GetOneJenisBarangRequest(id))
+	}, [dispatch, id])
 	
 	const formik = useFormik({
     enableReinitialize: true,
@@ -29,8 +34,7 @@ export default function EditJenisBarang(props) {
 				text: "Data Succesfully Edited",
 				icon: "success",
 			});
-      props.closeAdd();
-      props.onRefresh();
+      navigate("/dataBarang")
     }
   })
 	
@@ -65,7 +69,7 @@ export default function EditJenisBarang(props) {
 				</button>
 				<button 
 					className='transition flex items-center text-red-500 hover:bg-red-500 hover:text-white border-2 border-red-500 cursor-pointer pl-2 pr-4 py-1 shadow-sm text-sm font-medium rounded-md  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' 
-					onClick={() => props.closeAdd()}
+					onClick={() => navigate("/dataBarang")}
 				>
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   					<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />

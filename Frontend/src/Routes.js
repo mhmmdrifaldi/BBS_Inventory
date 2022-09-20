@@ -4,6 +4,11 @@ import { Navigate, useRoutes } from 'react-router-dom'
 import DataBarang from './views/DataBarang'
 import BarangMasuk from './views/BarangMasuk'
 import BarangKeluar from './views/BarangKeluar'
+import BlankPage from './component/BlankPage'
+import AddJenisBarang from './views/componentDataBarang/AddJenisBarang'
+import EditJenisBarang from './views/componentDataBarang/EditJenisBarang'
+import AddDataBarang from './views/componentDataBarang/AddDataBarang'
+import EditDataBarang from './views/componentDataBarang/EditDataBarang'
 
 export default function Routes() {
 	return useRoutes([
@@ -14,6 +19,16 @@ export default function Routes() {
 				{path: "dataBarang", element: <DataBarang/>},
 				{path: "barangMasuk", element: <BarangMasuk/>},
 				{path: "barangKeluar", element: <BarangKeluar/>}
+			]
+		},
+		{
+			path: "/dataBarang",
+			element: <BlankPage/>,
+			children: [
+				{path: "addKategori", element: <AddJenisBarang/>},
+				{path: "editKategori/:id", element: <EditJenisBarang/>},
+				{path: "addBarang", element: <AddDataBarang/>},
+				{path: "editBarang/:id", element: <EditDataBarang/>}
 			]
 		},
 		{path: '*', element: <Navigate to='404' replace/>}
