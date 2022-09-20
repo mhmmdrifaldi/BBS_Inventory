@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { GetJenisBarangRequest, DelJenisBarangRequest } from '../redux-saga/actions/JenisBarang'
+import { GetDataBarangRequest, DelDataBarangRequest } from '../redux-saga/actions/DataBarang'
 import AddDataBarang from './componentDataBarang/AddDataBarang'
 import EditDataBarang from './componentDataBarang/EditDataBarang'
 import AddJenisBarang from './componentDataBarang/AddJenisBarang'
@@ -17,9 +18,13 @@ export default function DataBarang() {
 	const [displayEditDabar, setDisplayEditDabar] = useState(false)
 
 	const { jebars } = useSelector(state => state.jebarState)
+	const { dabars } = useSelector(state => state.dabarState)
+
+	console.log(dabars);
 	
 	useEffect(() => {
     dispatch(GetJenisBarangRequest());
+		dispatch(GetDataBarangRequest());
 		setRefresh(false);
   }, [dispatch, refresh])
 
