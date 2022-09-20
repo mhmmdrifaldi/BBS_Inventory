@@ -28,7 +28,7 @@ const JebarReduce = (state = INIT_STATE, action) => {
 		case ActionType.DEL_JENISBARANG_SUCCESS:
 			return DelJenisBarangSucceed(state, action)
 		default:
-			return GetJenisBarangSucceed(state, action)
+			return state
 	}
 }
 

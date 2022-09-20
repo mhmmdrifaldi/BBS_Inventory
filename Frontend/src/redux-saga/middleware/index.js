@@ -3,7 +3,7 @@ import * as ActionJenisBarang from '../constants/JenisBarang'
 
 import { handleGetJenisBarang, handleGetOneJenisBarang, handleAddJenisBarang, handleEditJenisBarang, handleDelJenisBarang } from './JenisBarangSaga'
 
-function* watchAll(){
+function *watchAll(){
 	yield all([
 		takeEvery(ActionJenisBarang.GET_JENISBARANG_REQUEST, handleGetJenisBarang),
 		takeEvery(ActionJenisBarang.GETONE_JENISBARANG_REQUEST, handleGetOneJenisBarang),

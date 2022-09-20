@@ -1,6 +1,6 @@
 import {call,put} from 'redux-saga/effects'
 import apiJebar from '../../api/api-jebar'
-import { GetJenisBarangSuccess,GetJenisBarangFailed, GetOneJenisBarangSuccess, GetOneJenisBarangFailed, AddJenisBarangSuccess, AddJenisBarangFailed, EditJenisBarangSuccess, EditJenisBarangFailed, DelJenisBarangSuccess, DelJenisBarangFailed } from '../actions/JenisBarang'
+import { GetJenisBarangSuccess, GetJenisBarangFailed, GetOneJenisBarangSuccess, GetOneJenisBarangFailed, AddJenisBarangSuccess, AddJenisBarangFailed, EditJenisBarangSuccess, EditJenisBarangFailed, DelJenisBarangSuccess, DelJenisBarangFailed } from '../actions/JenisBarang'
 
 function* handleGetJenisBarang(){
   try {
