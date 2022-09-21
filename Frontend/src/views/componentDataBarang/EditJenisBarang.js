@@ -12,8 +12,6 @@ export default function EditJenisBarang() {
 	const { jebar } = useSelector(state => state.jebarState)
 	const { id } = useParams()
 
-	console.log(id);
-
 	useEffect(() => {
 		dispatch(GetOneJenisBarangRequest(id))
 	}, [dispatch, id])

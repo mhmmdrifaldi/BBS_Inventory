@@ -1,7 +1,9 @@
+import { sequelize } from "../models/init-models"
+
 const findAll = async (req,res)=>{
 	try {
 		const jebar = await req.context.models.jenis_barang.findAll()
-		const dabar = await req.context.models.data_barang.findAll()
+		const dabar = await sequelize.query('SELECT * FROM data_barang d JOIN jenis_barang j ON d.id_jebar = j.id_jebar ORDER BY d.stock DESC', {type : sequelize.QueryTypes.SELECT})
 		const result = { jebar, dabar }
 		return res.send(result)
 	} catch (error) {
@@ -37,8 +39,7 @@ const update = async (req,res)=>{
 	try {
 		const dabar = await req.context.models.data_barang.update({
 			id_jebar: req.body.id_jebar,
-			nama_jebar : req.body.nama_jebar,
-			stock: req.body.stock
+			nama_barang : req.body.nama_barang
 		},{ returning : true , where:{id_dabar : req.params.id}})
 		return res.send(dabar)
 	} catch (error) {
