@@ -1,36 +1,56 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useFormik } from 'formik'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { AddJenisBarangRequest } from '../../redux-saga/actions/JenisBarang'
+import { GetJenisBarangRequest, AddJenisBarangRequest } from '../../redux-saga/actions/JenisBarang'
 import * as Yup from 'yup'
 import swal from 'sweetalert'
 
 export default function AddJenisBarang() {
 	let navigate = useNavigate()
 	const dispatch = useDispatch()
+	const { jebars } = useSelector(state => state.jebarState)
+
+	useEffect(() => {
+		dispatch(GetJenisBarangRequest())
+	}, [dispatch])
+	
 
 	const formik = useFormik({
 		initialValues: {
 			nama_jebar: ''
 		},
 
-		onSubmit: async (values) => {
-			const payload = {
-				nama_jebar: values.nama_jebar
-			}
+		validationSchema: Yup.object({
+			nama_jebar: Yup.string().required("Kategori cannot be empty"),
+		}),
 
-			dispatch(AddJenisBarangRequest(payload))
-			swal({
-				text: "Data Succesfully Insert",
-				icon: "success",
-			});
-			navigate("/dataBarang")
+		onSubmit: async (values) => {
+			const dataJebar = jebars.map(data => data.nama_jebar.toLowerCase().split(' ').join(''))
+			const namaJebar = values.nama_jebar.toLowerCase().split(' ').join('')
+
+			if (dataJebar.includes(namaJebar)) {
+				swal({
+					text: "Name already exist. Please use a new name",
+					icon: "error",
+				});
+			} else {
+				const payload = {
+					nama_jebar: values.nama_jebar
+				}
+	
+				dispatch(AddJenisBarangRequest(payload))
+				swal({
+					text: "Data Succesfully Insert",
+					icon: "success",
+				});
+				navigate("/dataBarang")
+			}
 		}
 	})
 
 	return (
-		<div className='fixed h-44 top-[30%] left-1/4 w-1/2 p-7 rounded-md shadow-xl shadow-gray-500 bg-gray-100'>
+		<div className='fixed h-auto top-[30%] left-1/4 w-1/2 p-7 rounded-md shadow-xl shadow-gray-500 bg-gray-100'>
 			<div className='mb-3'>
         <label class="my-1 block text-sm font-medium text-gray-700">Kategori
           <span className='text-red-600'> * </span>

@@ -20,23 +20,38 @@ export default function AddDataBarang() {
 			nama_barang: ''
 		},
 
-		onSubmit: async (values) => {
-			const payload = {
-				id_jebar: values.id_jebar,
-				nama_barang: values.nama_barang
-			}
+		validationSchema: Yup.object({
+			id_jebar: Yup.number().min(1, "Please select Category").required("Please select Category"),
+			nama_barang: Yup.string().required("Nama Barang cannot be empty")
+		}),
 
-			dispatch(AddDataBarangRequest(payload))
-			swal({
-				text: "Data Succesfully Insert",
-				icon: "success",
-			});
-			navigate("/dataBarang")
+		onSubmit: async (values) => {
+			const dataDabar = dabars.dabar.map(data => data.nama_barang.toLowerCase().split(' ').join(''))
+			const namaDabar = values.nama_barang.toLowerCase().split(' ').join('')
+
+			if (dataDabar.includes(namaDabar)) {
+				swal({
+					text: "Name already exist. Please use a new name",
+					icon: "error",
+				});
+			} else {
+				const payload = {
+					id_jebar: values.id_jebar,
+					nama_barang: values.nama_barang
+				}
+	
+				dispatch(AddDataBarangRequest(payload))
+				swal({
+					text: "Data Succesfully Insert",
+					icon: "success",
+				});
+				navigate("/dataBarang")
+			}
 		}
 	})
 
 	return (
-		<div className='fixed h-44 top-[30%] left-1/4 w-1/2 p-7 rounded-md shadow-xl shadow-gray-500 bg-gray-100'>
+		<div className='fixed h-auto top-[30%] left-1/4 w-1/2 p-7 rounded-md shadow-xl shadow-gray-500 bg-gray-100'>
 			<div className='flex w-full mb-3'>
 				<div className='w-3/5 mr-5'>
 					<label class="my-1 block text-sm font-medium text-gray-700">Nama Barang

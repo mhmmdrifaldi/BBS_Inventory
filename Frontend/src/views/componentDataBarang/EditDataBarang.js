@@ -24,23 +24,40 @@ export default function EditDataBarang() {
       nama_barang: dabar.nama_barang
     },
 
+		validationSchema: Yup.object({
+			id_jebar: Yup.number().min(1, "Please select Category").required("Please select Category"),
+			nama_barang: Yup.string().required("Nama Barang cannot be empty")
+		}),
+
     onSubmit: async (values) => {
-      const payload = {
-				id_jebar: values.id_jebar,
-        nama_barang: values.nama_barang,
-        id_dabar: dabar.id_dabar
-      };
-      dispatch(EditDataBarangRequest(payload))
-			swal({
-				text: "Data Succesfully Edited",
-				icon: "success",
-			});
-      navigate("/dataBarang")
+			const dataDabar = dabars.dabar.map(data => data.nama_barang)
+			dataDabar.splice(dataDabar.indexOf(dabar.nama_barang), 1)
+			const newDataDabar = dataDabar.map(data => data.toLowerCase().split(' ').join(''))
+			const namaDabar = values.nama_barang.toLowerCase().split(' ').join('')
+
+			if (newDataDabar.includes(namaDabar)) {
+				swal({
+					text: "Name already exist. Please use a new name",
+					icon: "error",
+				});
+			} else {
+				const payload = {
+					id_jebar: values.id_jebar,
+					nama_barang: values.nama_barang,
+					id_dabar: dabar.id_dabar
+				};
+				dispatch(EditDataBarangRequest(payload))
+				swal({
+					text: "Data Succesfully Edited",
+					icon: "success",
+				});
+				navigate("/dataBarang")
+			}
     }
   })
 
 	return (
-		<div className='fixed h-44 top-[30%] left-1/4 w-1/2 p-7 rounded-md shadow-xl shadow-gray-500 bg-gray-100'>
+		<div className='fixed h-auto top-[30%] left-1/4 w-1/2 p-7 rounded-md shadow-xl shadow-gray-500 bg-gray-100'>
 			<div className='flex w-full mb-3'>
 				<div className='w-3/5 mr-5'>
 					<label class="my-1 block text-sm font-medium text-gray-700">Nama Barang

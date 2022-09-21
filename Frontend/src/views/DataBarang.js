@@ -192,9 +192,9 @@ export default function DataBarang() {
             	</button>
 							<div className='flex items-center'>
 								<input
-									className='h-8 w-[230px] focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 rounded-md'
+									className='h-8 w-[230px] focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-400 rounded-md'
 									type='search'
-									placeholder='Search By Name and Category'
+									placeholder='Search By Name or Category'
 									onChange={(event) => {
 										setSearch(event.target.value)
 									}}

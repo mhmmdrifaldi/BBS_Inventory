@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useFormik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { GetOneJenisBarangRequest, EditJenisBarangRequest } from '../../redux-saga/actions/JenisBarang'
+import { GetJenisBarangRequest, GetOneJenisBarangRequest, EditJenisBarangRequest } from '../../redux-saga/actions/JenisBarang'
 import * as Yup from 'yup'
 import swal from 'sweetalert'
 
@@ -10,9 +10,11 @@ export default function EditJenisBarang() {
 	let navigate = useNavigate()
 	const dispatch = useDispatch()
 	const { jebar } = useSelector(state => state.jebarState)
+	const { jebars } = useSelector(state => state.jebarState)
 	const { id } = useParams()
 
 	useEffect(() => {
+		dispatch(GetJenisBarangRequest())
 		dispatch(GetOneJenisBarangRequest(id))
 	}, [dispatch, id])
 	
@@ -22,22 +24,38 @@ export default function EditJenisBarang() {
       nama_jebar: jebar.nama_jebar
     },
 
+		validationSchema: Yup.object({
+			nama_jebar: Yup.string().required("Kategori cannot be empty"),
+		}),
+
     onSubmit: async (values) => {
-      const payload = {
-        nama_jebar: values.nama_jebar,
-        id_jebar: jebar.id_jebar
-      };
-      dispatch(EditJenisBarangRequest(payload))
-			swal({
-				text: "Data Succesfully Edited",
-				icon: "success",
-			});
-      navigate("/dataBarang")
+			const dataJebar = jebars.map(data => data.nama_jebar)
+			dataJebar.splice(dataJebar.indexOf(jebar.nama_jebar), 1)
+			const newDataJebar = dataJebar.map(data => data.toLowerCase().split(' ').join(''))
+			const namaJebar = values.nama_jebar.toLowerCase().split(' ').join('')
+
+			if (newDataJebar.includes(namaJebar)) {
+				swal({
+					text: "Name already exist. Please use a new name",
+					icon: "error",
+				});
+			} else {
+				const payload = {
+					nama_jebar: values.nama_jebar,
+					id_jebar: jebar.id_jebar
+				};
+				dispatch(EditJenisBarangRequest(payload))
+				swal({
+					text: "Data Succesfully Edited",
+					icon: "success",
+				});
+				navigate("/dataBarang")
+			}
     }
   })
 	
 	return (
-		<div className='fixed h-44 top-[30%] left-1/4 w-1/2 p-7 rounded-md shadow-xl shadow-gray-500 bg-gray-100'>
+		<div className='fixed h-auto top-[30%] left-1/4 w-1/2 p-7 rounded-md shadow-xl shadow-gray-500 bg-gray-100'>
 			<div className='mb-3'>
         <label class="my-1 block text-sm font-medium text-gray-700">Kategori
           <span className='text-red-600'> * </span>
