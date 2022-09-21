@@ -13,7 +13,7 @@ export default function EditDataBarang() {
 	const { id } = useParams()
 
 	useEffect(() => {
-		dispatch(GetOneDataBarangRequest())
+		dispatch(GetDataBarangRequest())
 		dispatch(GetOneDataBarangRequest(id))
 	}, [dispatch, id])
 
