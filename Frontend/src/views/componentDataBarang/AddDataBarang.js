@@ -51,7 +51,7 @@ export default function AddDataBarang() {
 	})
 
 	return (
-		<div className='fixed h-auto top-[30%] left-1/4 w-1/2 p-7 rounded-md shadow-xl shadow-gray-500 bg-gray-100'>
+		<div className='fixed h-auto top-[30%] left-[6%] lg:left-1/4 sm:left-[10%] lg:w-1/2 sm:w-4/5 p-7 rounded-md shadow-xl shadow-gray-500 bg-gray-100'>
 			<div className='flex w-full mb-3'>
 				<div className='w-3/5 mr-5'>
 					<label class="my-1 block text-sm font-medium text-gray-700">Nama Barang

@@ -25,6 +25,7 @@ app.use(async(req,res,next)=> {
 //Masukkan Routes
 app.use(config.URL_API + '/jenis_barang', routes.JebarRoute)
 app.use(config.URL_API + '/data_barang', routes.DabarRoute)
+app.use(config.URL_API + '/barang_masuk', routes.BarmaRoute)
 
 const dropDatabaseSync = false
 

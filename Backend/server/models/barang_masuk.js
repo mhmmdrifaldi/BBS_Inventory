@@ -7,6 +7,15 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
+    barma_id_nota: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      references: {
+        model: 'nota',
+        key: 'id_nota'
+      }
+    },
     barma_id_dabar: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -18,10 +27,6 @@ module.exports = function(sequelize, DataTypes) {
     },
     stock: {
       type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    date_barma: {
-      type: DataTypes.DATEONLY,
       allowNull: true
     }
   }, {
@@ -35,6 +40,7 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         fields: [
           { name: "id_barma" },
+          { name: "barma_id_nota" },
           { name: "barma_id_dabar" },
         ]
       },

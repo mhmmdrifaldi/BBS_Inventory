@@ -7,6 +7,15 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
+    barkel_id_user: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      references: {
+        model: 'pembeli',
+        key: 'id_user'
+      }
+    },
     barkel_id_dabar: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -18,14 +27,6 @@ module.exports = function(sequelize, DataTypes) {
     },
     stock: {
       type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    date_barkel: {
-      type: DataTypes.DATEONLY,
-      allowNull: true
-    },
-    status: {
-      type: DataTypes.STRING(20),
       allowNull: true
     }
   }, {
@@ -39,6 +40,7 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         fields: [
           { name: "id_barkel" },
+          { name: "barkel_id_user" },
           { name: "barkel_id_dabar" },
         ]
       },
