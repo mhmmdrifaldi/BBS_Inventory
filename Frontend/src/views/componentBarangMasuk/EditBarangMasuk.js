@@ -71,7 +71,7 @@ export default function EditBarangMasuk() {
 	})
 
 	return (
-		<div className='fixed h-auto top-[25%] left-1/4 w-1/2 p-5 rounded-md shadow-xl shadow-gray-500 bg-gray-100'>
+		<div className='fixed h-auto top-[25%] lg:left-1/4 sm:left-[10%] left-[10%] lg:w-1/2 sm:w-4/5 w-4/5 p-5 rounded-md shadow-xl shadow-gray-500 bg-gray-100'>
 			<div className='flex w-full mb-5'>
 				<div className='w-3/4 mr-5'>
 					<label className='block'>Barang  <span className='text-red-600'> * </span> </label>
