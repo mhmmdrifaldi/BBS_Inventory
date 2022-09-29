@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { GetBarangMasukRequest, AddBarangMasukRequest } from '../../redux-saga/actions/BarangMasuk'
+import { GetBarangKeluarRequest, AddBarangKeluarRequest } from '../../redux-saga/actions/BarangKeluar'
 import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
+import * as Yup from 'yup'
 import swal from 'sweetalert'
 
-export default function AddBarangMasuk() {
+export default function AddBarangKeluar() {
 	let navigate = useNavigate()
 	const dispatch = useDispatch()
-	const { barmas } = useSelector(state => state.barmaState)
+	const { barkels } = useSelector(state => state.barkelState) 
 
 	const [inputFields, setInputFields] = useState([
-		{ barma_id_dabar: 0, stock: 0 }
+		{ barkel_id_dabar: 0, stock: 0 }
 	])
 
 	useEffect(() => {
-		dispatch(GetBarangMasukRequest())
+		dispatch(GetBarangKeluarRequest())
 	}, [dispatch])
 
 	const handleChangeInput = (index, event) => {
@@ -25,7 +26,7 @@ export default function AddBarangMasuk() {
 	}
 
 	const handleAddFields = () => {
-		setInputFields([...inputFields, { barma_id_dabar: 0, stock: 0 }])
+		setInputFields([...inputFields, { barkel_id_dabar: 0, stock: 0 }])
 	}
 
 	const handleRemoveFields = (index) => {
@@ -38,30 +39,72 @@ export default function AddBarangMasuk() {
 	
 	const formik = useFormik({
 		initialValues: {
+			nama_user: '',
+			alamat: '',
 			stock: 0
 		},
 
-		onSubmit: async () => {
+		validationSchema: Yup.object({
+			nama_user: Yup.string().required("Nama Customer cannot be empty"),
+			alamat: Yup.string().required("Alamat cannot be empty")
+		}),
+
+		onSubmit: async (values) => {
 			const payload = {
+				nama_user: values.nama_user,
+				alamat: values.alamat,
 				dataBarang: inputFields
 			}
+
+			console.log(payload)
 			
-			dispatch(AddBarangMasukRequest(payload))
+			dispatch(AddBarangKeluarRequest(payload))
 			swal({
 				text: "Data Succesfully Insert",
 				icon: "success",
 			});
-			navigate("/barangMasuk")
+			navigate("/barangKeluar")
 		}
 	})
 
 	return (
-		<div className='flex justify-center py-14'>
-			<div className='h-auto top-[10%] left-[13%] w-3/4 px-5 pt-7 pb-5 rounded-md shadow-xl shadow-gray-500 bg-gray-100'>
+		<div className='flex justify-center py-10'>
+			<div className='h-auto left-[13%] w-3/4 px-5 pt-7 pb-5 rounded-md shadow-xl shadow-gray-500 bg-gray-100'>
+				<div className='mb-4'>
+					<label class="my-1 block text-sm font-medium text-gray-700">Nama Customer
+						<span className='text-red-600'> * </span>
+					</label>
+					<input
+						class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+						type="text"
+						name="nama_user"
+						id="nama_user"
+						value={formik.values.nama_user}
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						autoComplete="nama_user"
+					/>
+					{formik.touched.nama_user && formik.errors.nama_user ? <span className="mb-2 text-xs text-red-600">{formik.errors.nama_user}</span> : null}
+				</div>
+				<div className='mb-8'>
+					<label class="my-1 block text-sm font-medium text-gray-700">Alamat
+						<span className='text-red-600'> * </span>
+					</label>
+					<textarea
+						class="h-20 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+						name="alamat"
+						id="alamat"
+						value={formik.values.alamat}
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						autoComplete="alamat"
+					/>
+					{formik.touched.alamat && formik.errors.alamat ? <span className="mb-2 text-xs text-red-600">{formik.errors.alamat}</span> : null}
+				</div>
 				<div className='mb-10'>
 					<button
    	  		  type="button" 
-  					className="cursor-pointer inline-flex justify-center py-2 px-5 mb-5 text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400" 
+  					className="cursor-pointer inline-flex justify-center py-2 px-5 mb-2 text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400" 
       			onClick={()=> handleAddFields()}
 		  	  >	
   		  		<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -78,14 +121,14 @@ export default function AddBarangMasuk() {
 											<label className='block'>Barang  <span className='text-red-600'> * </span> </label>
 											<select
 				 								class="w-full focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 rounded-md"
-		 										name="barma_id_dabar"
-			 									id="barma_id_dabar"
-				 								value={inputFields.barma_id_dabar}
+		 										name="barkel_id_dabar"
+			 									id="barkel_id_dabar"
+				 								value={inputFields.barkel_id_dabar}
 				 								onChange={event => handleChangeInput(index, event)}
 						 					>
 												<option value="0" selected>--- Choose ---</option>
 			 									{
-		 											barmas.dabar && barmas.dabar.map(data => (
+		 											barkels.dabar && barkels.dabar.map(data => (
 		 												<option value={data.id_dabar}>{data.nama_barang}</option>
 		 											))
 		 										}
@@ -133,7 +176,7 @@ export default function AddBarangMasuk() {
 					</button>
 					<button 
 						className='transition flex items-center text-red-500 hover:bg-red-500 hover:text-white border-2 border-red-500 cursor-pointer pl-2 pr-4 py-1 shadow-sm text-sm font-medium rounded-md  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' 
-						onClick={() => navigate("/barangMasuk")}
+						onClick={() => navigate("/barangKeluar")}
 					>
 						<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
 							<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />

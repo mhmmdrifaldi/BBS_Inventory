@@ -1,6 +1,6 @@
 import {call,put} from 'redux-saga/effects'
 import apiBarma from '../../api/api-barma'
-import { GetBarangMasukSuccess, GetBarangMasukFailed, GetOneBarangMasukSuccess, GetOneBarangMasukFailed, AddBarangMasukSuccess, AddBarangMasukFailed, EditPlusBarangMasukSuccess, EditPlusBarangMasukFailed, EditMinusBarangMasukSuccess, EditMinusBarangMasukFailed } from '../actions/BarangMasuk'
+import { GetBarangMasukSuccess, GetBarangMasukFailed, GetOneBarangMasukNotaSuccess, GetOneBarangMasukNotaFailed, GetOneBarangMasukBarmaSuccess, GetOneBarangMasukBarmaFailed, AddBarangMasukSuccess, AddBarangMasukFailed, EditPlusBarangMasukSuccess, EditPlusBarangMasukFailed, EditMinusBarangMasukSuccess, EditMinusBarangMasukFailed } from '../actions/BarangMasuk'
 
 function* handleGetBarangMasuk(){
   try {
@@ -11,13 +11,23 @@ function* handleGetBarangMasuk(){
   }
 }
 
-function* handleGetOneBarangMasuk(action){
+function* handleGetOneBarangMasukNota(action){
 	const {payload} = action
 	try {
-		const result = yield call(apiBarma.findOne,payload)
-		yield put(GetOneBarangMasukSuccess(result))
+		const result = yield call(apiBarma.findOneNota,payload)
+		yield put(GetOneBarangMasukNotaSuccess(result))
 	} catch (error) {
-		yield put(GetOneBarangMasukFailed(error))
+		yield put(GetOneBarangMasukNotaFailed(error))
+	}
+}
+
+function* handleGetOneBarangMasukBarma(action){
+	const {payload} = action
+	try {
+		const result = yield call(apiBarma.findOneBarma,payload)
+		yield put(GetOneBarangMasukBarmaSuccess(result))
+	} catch (error) {
+		yield put(GetOneBarangMasukBarmaFailed(error))
 	}
 }
 
@@ -53,7 +63,8 @@ function* handleEditMinusBarangMasuk(action){
 
 export {
   handleGetBarangMasuk,
-	handleGetOneBarangMasuk,
+	handleGetOneBarangMasukNota,
+  handleGetOneBarangMasukBarma,
   handleAddBarangMasuk,
   handleEditPlusBarangMasuk,
   handleEditMinusBarangMasuk

@@ -31,7 +31,7 @@ export default function LandingPage() {
         	      	</button>
 									:
 									<button
-  	              	className='px-3 py-2 rounded-md text-sm font-medium text-black'
+  	              	className='px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-teal-800 hover:text-white'
 										onClick={()=>{navigate('/'); setDashboardSelect(true); setDataSelect(false); setBarmaSelect(false); setBarkelSelect(false)}}
     	          	>
       	          	Dashboard

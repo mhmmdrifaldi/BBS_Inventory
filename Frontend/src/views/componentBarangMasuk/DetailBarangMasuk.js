@@ -1,29 +1,31 @@
 import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { GetOneBarangMasukRequest } from '../../redux-saga/actions/BarangMasuk'
+import { GetOneBarangMasukNotaRequest } from '../../redux-saga/actions/BarangMasuk'
 
 export default function DetailBarangMasuk() {
 	let navigate = useNavigate()
 	const dispatch = useDispatch()
 
-	const { barma } = useSelector(state => state.barmaState)
+	const { barmaNota } = useSelector(state => state.barmaState)
 	const { id } = useParams()
 
 	useEffect(() => {
-		dispatch(GetOneBarangMasukRequest(id))
+		dispatch(GetOneBarangMasukNotaRequest(id))
 	}, [dispatch, id])
+
+	const data = barmaNota && barmaNota.map(data => data.date_nota_value)
 
 	return (
 		<div className='flex justify-center'>
 			<div className='h-auto mt-8 mx-5 lg:left-1/4 sm:mx-10 w-full lg:w-1/2 sm:w-full py-6 px-10 rounded-md shadow-md shadow-gray-500 bg-white'>
 				<div className='flex items-center mb-7 pb-2 border-b-2 border-slate-300'>
 					<h1 className='mr-3'>Barang Masuk Tanggal : </h1>
-					<h1 className='font-semibold'>{barma.nota && barma.nota.date_nota_value}</h1>	
+					<h1 className='font-semibold'>{data[0]}</h1>	
 				</div>
 				<div>
 					{
-						barma.nota && barma.nota.map(data => (
+						barmaNota && barmaNota.map(data => (
 							<div className='flex w-full'>
 								<div className='flex w-4/5 mb-5'>
 									<div className='w-2/3 mr-5 border-b-2 border-slate-300'>

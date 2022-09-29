@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { GetBarangMasukRequest, GetOneBarangMasukRequest, EditPlusBarangMasukRequest, EditMinusBarangMasukRequest } from '../../redux-saga/actions/BarangMasuk'
+import { GetBarangMasukRequest, GetOneBarangMasukBarmaRequest, EditPlusBarangMasukRequest, EditMinusBarangMasukRequest } from '../../redux-saga/actions/BarangMasuk'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import swal from 'sweetalert'
@@ -15,14 +15,14 @@ export default function EditBarangMasuk() {
 
 	useEffect(() => {
 		GetBarangMasukRequest()
-		dispatch(GetOneBarangMasukRequest(id))
+		dispatch(GetOneBarangMasukBarmaRequest(id))
 	}, [dispatch, id])
 	
 	const formik = useFormik({
 		enableReinitialize: true,
 		initialValues: {
-			barma_id_dabar: barma.barma && barma.barma.barma_id_dabar,
-			stock: barma.barma && barma.barma.stock
+			barma_id_dabar: barma && barma.barma_id_dabar,
+			stock: barma && barma.stock
 		},
 
 		validationSchema: Yup.object({
@@ -30,13 +30,13 @@ export default function EditBarangMasuk() {
 		}),
 
 		onSubmit: async (values) => {
-			if(values.stock > barma.barma && barma.barma.stock) {
-				const hasil = values.stock - barma.barma && barma.barma.stock;
+			if(values.stock > barma && barma.stock) {
+				const hasil = values.stock - barma && barma.stock;
 				const payload = {
 					stock: values.stock,
 					stockData: hasil,
-					id_dabar: barma.barma && barma.barma.barma_id_dabar,
-					id_barma: barma.barma && barma.barma.id_barma,
+					id_dabar: barma && barma.barma_id_dabar,
+					id_barma: barma && barma.id_barma,
 				}
 				
 				dispatch(EditPlusBarangMasukRequest(payload))
@@ -45,19 +45,19 @@ export default function EditBarangMasuk() {
 					icon: "success",
 				});
 				navigate("/barangMasuk")
-			} else if(values.stock == barma.barma && barma.barma.stock) {
+			} else if(values.stock == barma && barma.stock) {
 				swal({
 					text: "Data Succesfully Insert",
 					icon: "success",
 				});
 				navigate("/barangMasuk")
 			} else {
-				const hasil = barma.barma && barma.barma.stock - values.stock;
+				const hasil = barma && barma.stock - values.stock;
 				const payload = {
 					stock: values.stock,
 					stockData: hasil,
-					id_dabar: barma.barma && barma.barma.barma_id_dabar,
-					id_barma: barma.barma && barma.barma.id_barma,
+					id_dabar: barma && barma.barma_id_dabar,
+					id_barma: barma && barma.id_barma,
 				}
 				
 				dispatch(EditMinusBarangMasukRequest(payload))

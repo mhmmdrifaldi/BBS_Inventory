@@ -32,7 +32,8 @@ create table pembeli(
   nama_user varchar(30),
   alamat varchar(50),
   status varchar(20),
-  date_pembelian date
+  date_pembelian date,
+  bukti_pemasangan varchar(50)
 );
 
 create table barang_keluar(

@@ -12,15 +12,24 @@ const findAll = async (req,res)=>{
 	}
 }
 
-const findOne = async (req,res) => {
+const findOneNota = async (req,res) => {
 	try {
 		const nota = await sequelize.query(`SELECT n.id_nota, n.date_nota, TO_CHAR(n.date_nota,'DD Month YYYY') as date_nota_value, b.id_barma, d.nama_barang, b.stock FROM nota n JOIN barang_masuk b ON n.id_nota = b.barma_id_nota JOIN data_barang d ON b.barma_id_dabar = d.id_dabar WHERE n.id_nota = :id_nota ORDER BY d.nama_barang ASC`,
     {replacements : {id_nota : req.params.id},type : sequelize.QueryTypes.SELECT})
+		.then(result =>{
+      return res.send(result)
+    })		
+	} catch (error) {
+		return res.status(404).send(error)
+	}
+}
+
+const findOneBarma = async (req,res)=>{
+	try {
 		const barma = await req.context.models.barang_masuk.findOne({
 			where:{id_barma : req.params.id}
 		})
-		const result = { nota, barma }
-		return res.send(result)
+		return res.send(barma)
 	} catch (error) {
 		return res.status(404).send(error)
 	}
@@ -109,7 +118,8 @@ const updateDataMinus = async (req,res) => {
 
 export default {
 	findAll,
-	findOne,
+	findOneNota,
+	findOneBarma,
 	createNext,
 	createData,
 	createUpdateData,

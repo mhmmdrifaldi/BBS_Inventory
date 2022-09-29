@@ -14,18 +14,33 @@ export const GetBarangMasukFailed = (payload) => ({
   payload
 })
 
-export const GetOneBarangMasukRequest = (payload) => ({
-  type : ActionType.GETONE_BARANGMASUK_REQUEST,
+export const GetOneBarangMasukNotaRequest = (payload) => ({
+  type : ActionType.GETONE_BARANGMASUKNOTA_REQUEST,
   payload
 })
 
-export const GetOneBarangMasukSuccess = (payload) => ({
-  type : ActionType.GETONE_BARANGMASUK_SUCCESS,
+export const GetOneBarangMasukNotaSuccess = (payload) => ({
+  type : ActionType.GETONE_BARANGMASUKNOTA_SUCCESS,
   payload
 })
 
-export const GetOneBarangMasukFailed = (payload) => ({
-  type : ActionType.GETONE_BARANGMASUK_FAILED,
+export const GetOneBarangMasukNotaFailed = (payload) => ({
+  type : ActionType.GETONE_BARANGMASUKNOTA_FAILED,
+  payload
+})
+
+export const GetOneBarangMasukBarmaRequest = (payload) => ({
+  type : ActionType.GETONE_BARANGMASUKBARMA_REQUEST,
+  payload
+})
+
+export const GetOneBarangMasukBarmaSuccess = (payload) => ({
+  type : ActionType.GETONE_BARANGMASUKBARMA_SUCCESS,
+  payload
+})
+
+export const GetOneBarangMasukBarmaFailed = (payload) => ({
+  type : ActionType.GETONE_BARANGMASUKBARMA_FAILED,
   payload
 })
 

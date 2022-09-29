@@ -10,9 +10,18 @@ const list = async()=>{
 	}
 }
 
-const findOne = async(id)=>{
+const findOneNota = async(id)=>{
 	try {
-		const result = await axios.get(`${config.domain}/barang_masuk/${id}`)
+		const result = await axios.get(`${config.domain}/barang_masuk/nota/${id}`)
+		return result.data
+	} catch (error) {
+		return error
+	}
+}
+
+const findOneBarma = async(id)=>{
+	try {
+		const result = await axios.get(`${config.domain}/barang_masuk/barma/${id}`)
 		return result.data
 	} catch (error) {
 		return error
@@ -46,4 +55,4 @@ const updateMinus = async(data)=>{
 	}
 }
 
-export default { list, findOne, create, updatePlus, updateMinus }
+export default { list, findOneNota, findOneBarma, create, updatePlus, updateMinus }

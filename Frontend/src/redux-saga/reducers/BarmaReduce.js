@@ -2,7 +2,8 @@ import * as ActionType from '../constants/BarangMasuk'
 
 const INIT_STATE = {
 	barmas: [],
-	barma: []
+	barmaNota: [],
+	barma:[]
 }
 
 const BarmaReduce = (state = INIT_STATE, action) => {
@@ -11,10 +12,14 @@ const BarmaReduce = (state = INIT_STATE, action) => {
 			return { ...state }
 		case ActionType.GET_BARANGMASUK_SUCCESS:
 			return GetBarangMasukSucceed(state, action)
-		case ActionType.GETONE_BARANGMASUK_REQUEST:
+		case ActionType.GETONE_BARANGMASUKNOTA_REQUEST:
 			return { ...state }
-		case ActionType.GETONE_BARANGMASUK_SUCCESS:
-			return GetOneBarangMasukSucceed(state, action)
+		case ActionType.GETONE_BARANGMASUKNOTA_SUCCESS:
+			return GetOneBarangMasukNotaSucceed(state, action)
+		case ActionType.GETONE_BARANGMASUKBARMA_REQUEST:
+			return { ...state }
+		case ActionType.GETONE_BARANGMASUKBARMA_SUCCESS:
+			return GetOneBarangMasukBarmaSucceed(state, action)
 		case ActionType.ADD_BARANGMASUK_REQUEST:
 			return { ...state }
 		case ActionType.ADD_BARANGMASUK_SUCCESS:
@@ -39,7 +44,14 @@ const GetBarangMasukSucceed = (state, action) => {
   }
 }
 
-const GetOneBarangMasukSucceed = (state, action) => {
+const GetOneBarangMasukNotaSucceed = (state, action) => {
+  return {
+    ...state,
+    barmaNota: action.payload
+  }
+}
+
+const GetOneBarangMasukBarmaSucceed = (state, action) => {
   return {
     ...state,
     barma: action.payload

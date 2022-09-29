@@ -22,6 +22,10 @@ module.exports = function(sequelize, DataTypes) {
     date_pembelian: {
       type: DataTypes.DATEONLY,
       allowNull: true
+    },
+    bukti_pemasangan: {
+      type: DataTypes.STRING(50),
+      allowNull: true
     }
   }, {
     sequelize,

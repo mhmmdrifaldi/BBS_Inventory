@@ -1,10 +1,10 @@
 import React from 'react'
-import LandingPage from './component/LandingPage'
 import { Navigate, useRoutes } from 'react-router-dom'
+import LandingPage from './component/LandingPage'
+import BlankPage from './component/BlankPage'
 import DataBarang from './views/DataBarang'
 import BarangMasuk from './views/BarangMasuk'
 import BarangKeluar from './views/BarangKeluar'
-import BlankPage from './component/BlankPage'
 import AddJenisBarang from './views/componentDataBarang/AddJenisBarang'
 import EditJenisBarang from './views/componentDataBarang/EditJenisBarang'
 import AddDataBarang from './views/componentDataBarang/AddDataBarang'
@@ -12,6 +12,7 @@ import EditDataBarang from './views/componentDataBarang/EditDataBarang'
 import AddBarangMasuk from './views/componentBarangMasuk/AddBarangMasuk'
 import EditBarangMasuk from './views/componentBarangMasuk/EditBarangMasuk'
 import DetailBarangMasuk from './views/componentBarangMasuk/DetailBarangMasuk'
+import AddBarangKeluar from './views/componentBarangKeluar/AddBarangKeluar'
 
 export default function Routes() {
 	return useRoutes([
@@ -47,6 +48,13 @@ export default function Routes() {
 			children: [
 				{path: "addBarang", element: <AddBarangMasuk/>},
 				{path: "editBarang/:id", element: <EditBarangMasuk/>}
+			]
+		},
+		{
+			path: "/barangKeluar",
+			element: <BlankPage/>,
+			children: [
+				{path: "addBarang", element: <AddBarangKeluar/>}
 			]
 		},
 		{path: '*', element: <Navigate to='404' replace/>}
