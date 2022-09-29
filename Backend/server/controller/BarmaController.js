@@ -14,7 +14,7 @@ const findAll = async (req,res)=>{
 
 const findOneNota = async (req,res) => {
 	try {
-		const nota = await sequelize.query(`SELECT n.id_nota, n.date_nota, TO_CHAR(n.date_nota,'DD Month YYYY') as date_nota_value, b.id_barma, d.nama_barang, b.stock FROM nota n JOIN barang_masuk b ON n.id_nota = b.barma_id_nota JOIN data_barang d ON b.barma_id_dabar = d.id_dabar WHERE n.id_nota = :id_nota ORDER BY d.nama_barang ASC`,
+		await sequelize.query(`SELECT n.id_nota, n.date_nota, TO_CHAR(n.date_nota,'DD Month YYYY') as date_nota_value, b.id_barma, d.nama_barang, b.stock FROM nota n JOIN barang_masuk b ON n.id_nota = b.barma_id_nota JOIN data_barang d ON b.barma_id_dabar = d.id_dabar WHERE n.id_nota = :id_nota ORDER BY d.nama_barang ASC`,
     {replacements : {id_nota : req.params.id},type : sequelize.QueryTypes.SELECT})
 		.then(result =>{
       return res.send(result)

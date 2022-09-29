@@ -13,6 +13,29 @@ const findAll = async (req,res)=>{
 	}
 }
 
+const findOnePembeli = async (req,res) => {
+	try {
+		await sequelize.query(`SELECT a.id_user, a.nama_user, a.alamat, a.status, a.date_pembelian, TO_CHAR(a.date_pembelian,'DD Month YYYY') as date_pembelian_value, a.bukti_pemasangan, b.id_barkel, b.stock, c.nama_barang, c.id_dabar FROM pembeli a JOIN barang_keluar b ON a.id_user = b.barkel_id_user JOIN data_barang c ON b.barkel_id_dabar = c.id_dabar WHERE a.id_user = :id_user ORDER BY c.nama_barang ASC`,
+    {replacements : {id_user : req.params.id},type : sequelize.QueryTypes.SELECT})
+		.then(result =>{
+      return res.send(result)
+    })		
+	} catch (error) {
+		return res.status(404).send(error)
+	}
+}
+
+const findOneBarkel = async (req,res)=>{
+	try {
+		const barkel = await req.context.models.barang_keluar.findOne({
+			where:{id_barkel : req.params.id}
+		})
+		return res.send(barkel)
+	} catch (error) {
+		return res.status(404).send(error)
+	}
+}
+
 const createNext = async (req,res,next)=>{
 	try {
 		const pembeli = await req.context.models.pembeli.create({
@@ -61,6 +84,8 @@ const createUpdateData = async(req,res)=>{
 
 export default {
 	findAll,
+	findOnePembeli,
+	findOneBarkel,
 	createNext,
 	createData,
 	createUpdateData
