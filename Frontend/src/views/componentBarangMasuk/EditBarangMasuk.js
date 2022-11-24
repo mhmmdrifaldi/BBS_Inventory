@@ -38,7 +38,7 @@ export default function EditBarangMasuk() {
 					id_dabar: barma && barma.barma_id_dabar,
 					id_barma: barma && barma.id_barma,
 				}
-				
+
 				dispatch(EditPlusBarangMasukRequest(payload))
 				swal({
 					text: "Data Succesfully Insert",

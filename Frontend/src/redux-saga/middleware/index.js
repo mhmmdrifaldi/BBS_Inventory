@@ -7,7 +7,7 @@ import * as ActionBarangKeluar from '../constants/BarangKeluar'
 import { handleGetJenisBarang, handleGetOneJenisBarang, handleAddJenisBarang, handleEditJenisBarang, handleDelJenisBarang } from './JenisBarangSaga'
 import { handleGetDataBarang, handleGetOneDataBarang, handleAddDataBarang, handleEditDataBarang, handleDelDataBarang } from './DataBarangSaga'
 import { handleGetBarangMasuk, handleGetOneBarangMasukNota, handleGetOneBarangMasukBarma, handleAddBarangMasuk, handleEditPlusBarangMasuk, handleEditMinusBarangMasuk } from './BarangMasukSaga'
-import { handleGetBarangKeluar, handleAddBarangKeluar } from './BarangKeluarSaga'
+import { handleGetBarangKeluarPending, handleGetBarangKeluarProcess, handleGetBarangKeluarDone, handleGetBarangKeluarDabar, handleGetBarangKeluarBarkel, handleGetOneBarangKeluarPembeli, handleGetOneBarangKeluarBarkel, handleAddBarangKeluar, handleEditStatusBarangKeluar } from './BarangKeluarSaga'
 
 function *watchAll(){
 	yield all([
@@ -30,8 +30,15 @@ function *watchAll(){
 		takeEvery(ActionBarangMasuk.EDITPLUS_BARANGMASUK_REQUEST, handleEditPlusBarangMasuk),
 		takeEvery(ActionBarangMasuk.EDITMINUS_BARANGMASUK_REQUEST, handleEditMinusBarangMasuk),
 
-		takeEvery(ActionBarangKeluar.GET_BARANGKELUAR_REQUEST, handleGetBarangKeluar),
-		takeEvery(ActionBarangKeluar.ADD_BARANGKELUAR_REQUEST, handleAddBarangKeluar)
+		takeEvery(ActionBarangKeluar.GET_BARANGKELUARPENDING_REQUEST, handleGetBarangKeluarPending),
+		takeEvery(ActionBarangKeluar.GET_BARANGKELUARPROCESS_REQUEST, handleGetBarangKeluarProcess),
+		takeEvery(ActionBarangKeluar.GET_BARANGKELUARDONE_REQUEST, handleGetBarangKeluarDone),
+		takeEvery(ActionBarangKeluar.GET_BARANGKELUARDABAR_REQUEST, handleGetBarangKeluarDabar),
+		takeEvery(ActionBarangKeluar.GET_BARANGKELUARBARKEL_REQUEST, handleGetBarangKeluarBarkel),
+		takeEvery(ActionBarangKeluar.GETONE_BARANGKELUARPEMBELI_REQUEST, handleGetOneBarangKeluarPembeli),
+		takeEvery(ActionBarangKeluar.GETONE_BARANGKELUARBARKEL_REQUEST, handleGetOneBarangKeluarBarkel),
+		takeEvery(ActionBarangKeluar.ADD_BARANGKELUAR_REQUEST, handleAddBarangKeluar),
+		takeEvery(ActionBarangKeluar.EDITSTATUS_BARANGKELUAR_REQUEST, handleEditStatusBarangKeluar)
 	])
 }
 

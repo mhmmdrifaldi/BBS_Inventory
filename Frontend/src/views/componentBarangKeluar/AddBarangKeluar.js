@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { GetBarangKeluarRequest, AddBarangKeluarRequest } from '../../redux-saga/actions/BarangKeluar'
+import { GetBarangKeluarDabarRequest, AddBarangKeluarRequest } from '../../redux-saga/actions/BarangKeluar'
 import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -9,14 +9,14 @@ import swal from 'sweetalert'
 export default function AddBarangKeluar() {
 	let navigate = useNavigate()
 	const dispatch = useDispatch()
-	const { barkels } = useSelector(state => state.barkelState) 
+	const { dataDabar } = useSelector(state => state.barkelState)
 
 	const [inputFields, setInputFields] = useState([
 		{ barkel_id_dabar: 0, stock: 0 }
 	])
 
 	useEffect(() => {
-		dispatch(GetBarangKeluarRequest())
+		dispatch(GetBarangKeluarDabarRequest())
 	}, [dispatch])
 
 	const handleChangeInput = (index, event) => {
@@ -56,8 +56,6 @@ export default function AddBarangKeluar() {
 				dataBarang: inputFields
 			}
 
-			console.log(payload)
-			
 			dispatch(AddBarangKeluarRequest(payload))
 			swal({
 				text: "Data Succesfully Insert",
@@ -128,7 +126,7 @@ export default function AddBarangKeluar() {
 						 					>
 												<option value="0" selected>--- Choose ---</option>
 			 									{
-		 											barkels.dabar && barkels.dabar.map(data => (
+		 											dataDabar && dataDabar.map(data => (
 		 												<option value={data.id_dabar}>{data.nama_barang}</option>
 		 											))
 		 										}

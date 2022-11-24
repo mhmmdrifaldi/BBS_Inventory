@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { GetBarangKeluarRequest } from '../redux-saga/actions/BarangKeluar'
+import { GetBarangKeluarPendingRequest, GetBarangKeluarProcessRequest, GetBarangKeluarDoneRequest } from '../redux-saga/actions/BarangKeluar'
 import ReactPaginate from 'react-paginate'
 import { Tab } from '@headlessui/react'
 
 export default function BarangKeluar() {
 	let navigate = useNavigate()
 	const dispatch = useDispatch()
-	const { barkels } = useSelector(state => state.barkelState)
+	const { dataPending } = useSelector(state => state.barkelState)
+	const { dataProcess } = useSelector(state => state.barkelState)
+	const { dataDone } = useSelector(state => state.barkelState)
 
 	const [searchPending, setSearchPending] = useState("")
 	const [valueSearchPending, setValueSearchPending] = useState("")
@@ -21,72 +23,77 @@ export default function BarangKeluar() {
 
 	const dataPerPage = 3
 
-	const [dataPending, setDataPending] = useState([])
+	const [dataAwalPending, setDataPending] = useState([])
 	const [jumlahHalamanPending, setJumlahHalamanPending] = useState(0)
 	const [halamanTerkiniPending, setHalamanTerkiniPending] = useState(0)
 
 	useEffect(() => {
 		const halamanAkhir = halamanTerkiniPending + dataPerPage;
-		setDataPending(barkels.pending && barkels.pending.filter((data) => {
+		setDataPending(dataPending && dataPending.filter((data) => {
 			if(searchPending === "") {
 				return data
 			} else if(data.date_pembelian.includes(searchPending)) {
 				return data
 			}
 		}).slice(halamanTerkiniPending, halamanAkhir));
-		setJumlahHalamanPending(Math.ceil(barkels.pending && barkels.pending.length / dataPerPage));
-	}, [halamanTerkiniPending, dataPerPage, barkels, searchPending])
+		setJumlahHalamanPending(Math.ceil(dataPending && dataPending.length / dataPerPage));
+	}, [halamanTerkiniPending, dataPerPage, dataPending, searchPending])
 
 	const handlePageClickPending = (event) => {
-		const pilihHalaman = (event.selected * dataPerPage) % barkels.pending.length;
+		const pilihHalaman = (event.selected * dataPerPage) % dataPending.length;
 		setHalamanTerkiniPending(pilihHalaman)
 	}
 
-	const [dataProcess, setDataProcess] = useState([])
+	const [dataAwalProcess, setDataProcess] = useState([])
 	const [jumlahHalamanProcess, setJumlahHalamanProcess] = useState(0)
 	const [halamanTerkiniProcess, setHalamanTerkiniProcess] = useState(0)
 
 	useEffect(() => {
 		const halamanAkhir = halamanTerkiniProcess + dataPerPage;
-		setDataProcess(barkels.process && barkels.process.filter((data) => {
+		setDataProcess(dataProcess && dataProcess.filter((data) => {
 			if(searchProcess === "") {
 				return data
 			} else if(data.date_pembelian.includes(searchProcess)) {
 				return data
 			}
 		}).slice(halamanTerkiniProcess, halamanAkhir));
-		setJumlahHalamanProcess(Math.ceil(barkels.process && barkels.process.length / dataPerPage));
-	}, [halamanTerkiniProcess, dataPerPage, barkels, searchProcess])
+		setJumlahHalamanProcess(Math.ceil(dataProcess && dataProcess.length / dataPerPage));
+	}, [halamanTerkiniProcess, dataPerPage, dataProcess, searchProcess])
 
 	const handlePageClickProcess = (event) => {
-		const pilihHalaman = (event.selected * dataPerPage) % barkels.process.length;
+		const pilihHalaman = (event.selected * dataPerPage) % dataProcess.length;
 		setHalamanTerkiniProcess(pilihHalaman)
 	}
 
-	const [dataDone, setDataDone] = useState([])
+	const [dataAwalDone, setDataDone] = useState([])
 	const [jumlahHalamanDone, setJumlahHalamanDone] = useState(0)
 	const [halamanTerkiniDone, setHalamanTerkiniDone] = useState(0)
 
 	useEffect(() => {
 		const halamanAkhir = halamanTerkiniDone + dataPerPage;
-		setDataDone(barkels.done && barkels.done.filter((data) => {
+		setDataDone(dataDone && dataDone.filter((data) => {
 			if(searchDone === "") {
 				return data
 			} else if(data.date_pembelian.includes(searchDone)) {
 				return data
 			}
 		}).slice(halamanTerkiniDone, halamanAkhir));
-		setJumlahHalamanDone(Math.ceil(barkels.done && barkels.done.length / dataPerPage));
-	}, [halamanTerkiniDone, dataPerPage, barkels, searchDone])
+		setJumlahHalamanDone(Math.ceil(dataDone && dataDone.length / dataPerPage));
+	}, [halamanTerkiniDone, dataPerPage, dataDone, searchDone])
 
 	const handlePageClickDone = (event) => {
-		const pilihHalaman = (event.selected * dataPerPage) % barkels.done.length;
+		const pilihHalaman = (event.selected * dataPerPage) % dataDone.length;
 		setHalamanTerkiniDone(pilihHalaman)
 	}
 
 	useEffect(() => {
-		dispatch(GetBarangKeluarRequest())
+		dispatch(GetBarangKeluarPendingRequest())
+		dispatch(GetBarangKeluarProcessRequest())
+		dispatch(GetBarangKeluarDoneRequest())
 	}, [dispatch])
+
+	const test = dataPending.filter(data => data.id_user !== 29)
+	console.log(test);
 
 	return (
 		<div className='relative h-auto px-none lg:px-10 sm:px-5 pt-3 pb-5'>
@@ -191,7 +198,7 @@ export default function BarangKeluar() {
 									</thead>
 									<tbody className="overscroll-auto md:overscroll-contain">
 										{
-											dataPending && dataPending.filter((data) => {
+											dataAwalPending && dataAwalPending.filter((data) => {
 												if(searchPending === "") {
 													return data
 												} else if(data.date_pembelian.includes(searchPending)) {
@@ -219,7 +226,7 @@ export default function BarangKeluar() {
 																<button 
 																	type="button" 
 																	className="mb-1 mr-2 my-2 cursor-pointer inline-flex justify-center py-2 px-5 text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400" 
-																	onClick={()=> navigate()}
+																	onClick={()=> navigate(`/barangKeluar/detail/${data.id_user}`)}
 																>
 																	Lihat Data         
 																</button>
@@ -310,7 +317,7 @@ export default function BarangKeluar() {
 									</thead>
 									<tbody className="overscroll-auto md:overscroll-contain">
 										{
-											dataProcess && dataProcess.filter((data) => {
+											dataAwalProcess && dataAwalProcess.filter((data) => {
 												if(searchProcess === "") {
 													return data
 												} else if(data.date_pembelian.includes(searchProcess)) {
@@ -431,7 +438,7 @@ export default function BarangKeluar() {
 									</thead>
 									<tbody className="overscroll-auto md:overscroll-contain">
 										{
-											dataDone && dataDone.filter((data) => {
+											dataAwalDone && dataAwalDone.filter((data) => {
 												if(searchDone === "") {
 													return data
 												} else if(data.date_pembelian.includes(searchDone)) {

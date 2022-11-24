@@ -18,7 +18,7 @@ const findOneNota = async (req,res) => {
     {replacements : {id_nota : req.params.id},type : sequelize.QueryTypes.SELECT})
 		.then(result =>{
       return res.send(result)
-    })		
+    })	
 	} catch (error) {
 		return res.status(404).send(error)
 	}

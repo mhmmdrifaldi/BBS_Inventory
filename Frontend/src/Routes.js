@@ -13,6 +13,7 @@ import AddBarangMasuk from './views/componentBarangMasuk/AddBarangMasuk'
 import EditBarangMasuk from './views/componentBarangMasuk/EditBarangMasuk'
 import DetailBarangMasuk from './views/componentBarangMasuk/DetailBarangMasuk'
 import AddBarangKeluar from './views/componentBarangKeluar/AddBarangKeluar'
+import DetailBarangKeluarPending from './views/componentBarangKeluar/DetailBarangKeluarPending'
 
 export default function Routes() {
 	return useRoutes([
@@ -48,6 +49,13 @@ export default function Routes() {
 			children: [
 				{path: "addBarang", element: <AddBarangMasuk/>},
 				{path: "editBarang/:id", element: <EditBarangMasuk/>}
+			]
+		},
+		{
+			path: "/barangKeluar",
+			element: <LandingPage/>,
+			children: [
+				{path: "detail/:id", element: <DetailBarangKeluarPending/>}
 			]
 		},
 		{

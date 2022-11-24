@@ -1,13 +1,53 @@
 import { sequelize } from "../models/init-models"
 
-const findAll = async (req,res)=>{
+const findPending = async (req,res)=> {
 	try {
-		const pending = await sequelize.query(`SELECT id_user, nama_user, alamat, status, date_pembelian, TO_CHAR(date_pembelian, 'DD Month YYYY') as date_pembelian_value, bukti_pemasangan FROM pembeli WHERE status = 'Pending' ORDER BY date_pembelian DESC`, {type : sequelize.QueryTypes.SELECT})
-		const process = await sequelize.query(`SELECT id_user, nama_user, alamat, status, date_pembelian, TO_CHAR(date_pembelian, 'DD Month YYYY') as date_pembelian_value, bukti_pemasangan FROM pembeli WHERE status = 'On Process' ORDER BY date_pembelian`, {type : sequelize.QueryTypes.SELECT})
-		const done = await sequelize.query(`SELECT id_user, nama_user, alamat, status, date_pembelian, TO_CHAR(date_pembelian, 'DD Month YYYY') as date_pembelian_value, bukti_pemasangan FROM pembeli WHERE status = 'Done' ORDER BY date_pembelian`, {type : sequelize.QueryTypes.SELECT})
-		const dabar = await sequelize.query('SELECT * FROM data_barang ORDER BY nama_barang ASC', {type : sequelize.QueryTypes.SELECT})
-		const result = { pending, process, done, dabar }
-		return res.send(result)
+		await sequelize.query(`SELECT id_user, nama_user, alamat, status, date_pembelian, TO_CHAR(date_pembelian, 'DD Month YYYY') as date_pembelian_value, bukti_pemasangan FROM pembeli WHERE status = 'Pending' ORDER BY date_pembelian DESC`, {type : sequelize.QueryTypes.SELECT})
+		.then(result =>{
+			return res.send(result)
+		})	
+	} catch (error) {
+		return res.status(404).send(error)
+	}
+}
+
+const findProcess = async (req,res)=> {
+	try {
+		await sequelize.query(`SELECT id_user, nama_user, alamat, status, date_pembelian, TO_CHAR(date_pembelian, 'DD Month YYYY') as date_pembelian_value, bukti_pemasangan FROM pembeli WHERE status = 'On Process' ORDER BY date_pembelian DESC`, {type : sequelize.QueryTypes.SELECT})
+		.then(result =>{
+			return res.send(result)
+		})	
+	} catch (error) {
+		return res.status(404).send(error)
+	}
+}
+
+const findDone = async (req,res)=> {
+	try {
+		await sequelize.query(`SELECT id_user, nama_user, alamat, status, date_pembelian, TO_CHAR(date_pembelian, 'DD Month YYYY') as date_pembelian_value, bukti_pemasangan FROM pembeli WHERE status = 'Done' ORDER BY date_pembelian DESC`, {type : sequelize.QueryTypes.SELECT})
+		.then(result =>{
+			return res.send(result)
+		})	
+	} catch (error) {
+		return res.status(404).send(error)
+	}
+}
+
+const findDabar = async (req,res)=> {
+	try {
+		await sequelize.query('SELECT * FROM data_barang ORDER BY nama_barang ASC', {type : sequelize.QueryTypes.SELECT})
+		.then(result =>{
+			return res.send(result)
+		})	
+	} catch (error) {
+		return res.status(404).send(error)
+	}
+}
+
+const findBarkel = async (req,res)=>{
+	try {
+		const barkel = await req.context.models.barang_keluar.findAll()
+		return res.send(barkel)
 	} catch (error) {
 		return res.status(404).send(error)
 	}
@@ -82,11 +122,28 @@ const createUpdateData = async(req,res)=>{
 	}
 }
 
+const updateStatus = async (req,res) => {
+	try {
+		await sequelize.query('UPDATE pembeli SET status= :status WHERE id_user= :id_user',
+			{replacements : {status : req.body.status, id_user : req.params.id},type : sequelize.QueryTypes.UPDATE})
+			.then(result =>{
+				return res.send(result)
+			})	
+	} catch (error) {
+		return res.status(404).send(error)
+	}
+}
+
 export default {
-	findAll,
+	findPending,
+	findProcess,
+	findDone,
+	findDabar,
+	findBarkel,
 	findOnePembeli,
 	findOneBarkel,
 	createNext,
 	createData,
-	createUpdateData
+	createUpdateData,
+	updateStatus
 }
